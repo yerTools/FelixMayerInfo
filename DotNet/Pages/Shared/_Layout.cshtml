@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FelixMayer.Info - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/Style.css" asp-append-version="true" />
+    <script src="~/Script.js" defer asp-append-version="true"></script>
+</head>
+<body>
+    <header>
+        <nav>
+        </nav>
+    </header>
+    <div id="page-body">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer>
+        &copy; 2022 - Felix Mayer - <a asp-area="" asp-page="/">Home</a>
+    </footer>
+</body>
+</html>

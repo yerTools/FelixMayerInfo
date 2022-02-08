@@ -1,0 +1,8 @@
+[
+    [
+        "npx concurrently --kill-others",
+
+        "\"npx tsc\"",
+        "\"npx sass ./SCSS/:./DotNet/wwwroot/ --style=compressed --no-source-map --watch\""
+    ]
+]

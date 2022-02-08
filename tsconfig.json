@@ -1,0 +1,78 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "allowUnreachableCode": false,
+        "allowUnusedLabels": false,
+        "alwaysStrict": true,
+
+        "exactOptionalPropertyTypes": true,
+
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": true,
+        "noImplicitOverride": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+
+        "strict": true,
+        "strictBindCallApply": true,
+        "strictFunctionTypes": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
+
+        "useUnknownInCatchVariables": true,
+        "allowUmdGlobalAccess": false,
+        "noResolve": false,
+        "resolveJsonModule": false,
+
+        "declaration": false,
+        "declarationMap": false,
+        "downlevelIteration": true,
+        "emitBOM": false,
+        "emitDeclarationOnly": false,
+        "importHelpers": false,
+        "importsNotUsedAsValues": "error",
+
+        "inlineSourceMap": false,
+        "inlineSources": false,
+
+        "newLine": "lf",
+        "noEmit": false,
+        "noEmitOnError": true,
+        "outFile": "./DotNet/wwwroot/Script.js",
+        "preserveConstEnums": true,
+        "removeComments": true,
+
+        "sourceMap": false,
+        "allowJs": false,
+        "checkJs": false,
+
+        "allowSyntheticDefaultImports": false,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+
+        "pretty": true,
+        "watch": true,
+
+        "target": "ES3",
+        "module": "None",
+        "lib": [
+            "DOM",
+            "ES5",
+            "ES2015",
+            "ES2016",
+            "ES2017",
+            "ES2018",
+            "ES2019",
+            "ES2020",
+            "ES2021",
+            "ESNext"
+        ]
+    },
+    "include": [
+        "./TypeScript/**/*"
+    ]
+}

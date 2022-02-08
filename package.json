@@ -1,0 +1,43 @@
+{
+    "name": "felixmayerinfo",
+    "version": "2021.02.08",
+    "description": "A page with information about myself - Felix Mayer.",
+    "main": "none",
+    "scripts": {
+        "dev": "node ./Scripts/loader.js ./Scripts/dev.json",
+        "build": "node ./Scripts/loader.js ./Scripts/build.json"
+    },
+    "repository": {
+        "type": "git",
+        "url": "http://gitlab.yer.tools/yerTools/felixmayerinfo.git"
+    },
+    "keywords": [
+        "felix",
+        "mayer",
+        "info",
+        "personal",
+        "details",
+        "information"
+    ],
+    "author": "Felix Mayer",
+    "license": "UNLICENSED",
+    "homepage": "https://FelixMayer.info/",
+    "readme": "README.md",
+    "dependencies": {
+        "autoprefixer": "latest",
+        "caniuse-lite": "latest",
+        "concurrently": "latest",
+        "cssnano": "latest",
+        "favicons": "latest",
+        "postcss": "latest",
+        "postcss-cli": "latest",
+        "postcss-cssnext": "latest",
+        "replace-in-file": "latest",
+        "sass": "latest",
+        "svg-sprite-generator": "latest",
+        "svgo": "latest",
+        "typescript": "latest",
+        "watch": "latest",
+        "sharp": "latest"
+    }
+}

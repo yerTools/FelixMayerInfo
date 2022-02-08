@@ -1,0 +1,13 @@
+.vs
+.vscode
+.tmp
+
+node_modules
+package-lock.json
+
+DotNet/.vs
+DotNet/bin
+DotNet/obj
+
+DotNet/wwwroot/Script.js
+DotNet/wwwroot/Style.css

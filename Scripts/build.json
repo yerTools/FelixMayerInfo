@@ -1,0 +1,6 @@
+[
+    "npx tsc --build",
+
+    "npx sass ./SCSS/:./DotNet/wwwroot/ --style=compressed --no-source-map",
+    "npx postcss ./DotNet/wwwroot/**/*.css  --no-map --use cssnano postcss-cssnext --replace"
+]
