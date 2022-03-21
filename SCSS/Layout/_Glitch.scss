@@ -1,0 +1,107 @@
+@use "sass:math";
+
+@keyframes glitch-element-keyframes {
+    @for $i from 0 through 30{
+        #{math.percentage(math.div($i, 30))}{
+            opacity: random-between(0.8, 1, 2);
+        }
+    }
+}
+
+@keyframes glitch-before-keyframes {
+    @for $i from 0 through 50{
+        #{math.percentage(math.div($i, 50))}{
+            $top: random-between(0, 100, 1, 2);
+            $height: random-between(0, 100, 1);
+
+            transform: 
+                translate3d(random-between(-4, 4, 2)+px, random-between(-4, 4, 2)+px, 0) 
+                scale3d(random-between(0.98, 1.02, 2), random-between(0.98, 1.02, 2), 1)
+                rotateZ(random-between(-2, 2, 1)+deg);
+
+            clip: rect($top+px, 9999px, calc($top + $height)+px, 0);
+
+            color: rgba(random-between(0, 255, 0), random-between(0, 255, 0), random-between(0, 255, 0), random-between(0, 1, 2));
+        }
+    }
+}
+
+
+@keyframes glitch-after-keyframes {
+    @for $i from 0 through 30{
+        #{math.percentage(math.div($i, 30))}{
+            transform: 
+                translate3d(random-between(-4, 4, 2)+px, random-between(-4, 4, 2)+px, 0) 
+                scale3d(random-between(0.98, 1.02, 2), random-between(0.98, 1.02, 2), 1)
+                rotateZ(random-between(-1.5, 1.5, 1)+deg);
+
+            opacity: random-between(0.4, 1, 2);
+            @if math.random() < 0.5{
+                color: rgba(random-between(200, 255, 0), random-between(0, 80, 0), random-between(0, 80, 0), random-between(0.5, 1, 2));
+            }
+            @else{
+                color: rgba(random-between(0, 80, 0), random-between(0, 80, 0), random-between(200, 255, 0), random-between(0.5, 1, 2));
+            }
+        }
+    }
+}
+
+@mixin glitch{
+    position: relative;
+
+    @if math.random() < 0.5{
+        animation: glitch-element-keyframes random-between(6, 8, 2)+s steps(2) random-between(0, 1, 2)+s infinite alternate;
+    }
+    @else{
+        animation: glitch-element-keyframes random-between(6, 8, 2)+s steps(2) random-between(0, 1, 2)+s infinite alternate-reverse;
+    }
+    &::before,&::after{
+        content: attr(data-glitch-text);
+        pointer-events: none;
+        opacity: 0;
+        left: 0;
+        top: 0;
+        transform-origin: center center;
+        position: absolute;
+    }
+
+    &::before{
+        opacity: 1;
+        clip: rect(0px, 9999px, 0px, 0px);
+        
+        @if math.random() < 0.5{
+            animation: glitch-before-keyframes random-between(4, 6, 2)+s steps(2) random-between(0, 1, 2)+s infinite alternate;
+        }
+        @else{
+            animation: glitch-before-keyframes random-between(4, 6, 2)+s steps(2) random-between(0, 1, 2)+s infinite alternate-reverse;
+        }
+    }
+
+    &::after{
+        z-index: -1;
+        
+        @if math.random() < 0.5{
+            animation: glitch-after-keyframes random-between(4, 6, 2)+s steps(2) random-between(0, 1, 2)+s infinite alternate;
+        }
+        @else{
+            animation: glitch-after-keyframes random-between(4, 6, 2)+s steps(2) random-between(0, 1, 2)+s infinite alternate-reverse;
+        }
+    }
+
+
+}
+
+[data-glitch-text]{
+    @include glitch();
+
+    &.glitch-0{ @include glitch(); }
+    &.glitch-1{ @include glitch(); }
+    &.glitch-2{ @include glitch(); }
+    &.glitch-3{ @include glitch(); }
+    &.glitch-4{ @include glitch(); }
+    &.glitch-5{ @include glitch(); }
+    &.glitch-6{ @include glitch(); }
+    &.glitch-7{ @include glitch(); }
+    &.glitch-8{ @include glitch(); }
+    &.glitch-9{ @include glitch(); }
+}

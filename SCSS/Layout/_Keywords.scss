@@ -1,0 +1,9 @@
+span.keyword{
+    font-family: 'Source Code Variable', 'Source Code Pro', monospace;
+
+    color: #1ca2f0;
+
+    &.variable{
+        color: #e8eb55;
+    }
+}

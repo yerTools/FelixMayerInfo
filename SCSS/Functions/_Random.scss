@@ -1,0 +1,5 @@
+@use "sass:math";
+
+@function random-between($min, $max, $decimals: 0, $randomPower: 1){
+    @return calc(math.round(calc(calc(calc(math.pow(math.random(), $randomPower) * calc($max - $min)) + $min) * math.pow(10, $decimals))) / math.pow(10, $decimals));
+}

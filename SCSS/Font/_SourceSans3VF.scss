@@ -1,0 +1,19 @@
+@font-face{
+    font-family: 'Source Sans 3 VF';
+    font-weight: 200 900;
+    font-style: normal;
+    font-stretch: normal;
+    src: url('./font/source-sans/WOFF2/VAR/SourceSans3VF-Roman.ttf.woff2') format('woff2'),
+         url('./font/source-sans/WOFF/VAR/SourceSans3VF-Roman.ttf.woff') format('woff'),
+         url('./font/source-sans/VAR/SourceSans3VF-Roman.ttf') format('truetype');
+}
+
+@font-face{
+    font-family: 'Source Sans 3 VF';
+    font-weight: 200 900;
+    font-style: italic;
+    font-stretch: normal;
+    src: url('./font/source-sans/WOFF2/VAR/SourceSans3VF-Italic.ttf.woff2') format('woff2'),
+         url('./font/source-sans/WOFF/VAR/SourceSans3VF-Italic.ttf.woff') format('woff'),
+         url('./font/source-sans/VAR/SourceSans3VF-Italic.ttf') format('truetype');
+}
