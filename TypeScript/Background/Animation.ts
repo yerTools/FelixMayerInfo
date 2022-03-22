@@ -7,7 +7,11 @@ namespace Background{
         private fpsDelta = 0;
         private fpsTargetTime:number|undefined;
 
-        constructor(fpsTarget:number|undefined){
+        readonly completedHandler = new General.EventHandler<Animation>()
+        readonly canBeCompleted:boolean;
+
+        constructor(canBeCompleted:boolean, fpsTarget:number|undefined){
+            this.canBeCompleted = canBeCompleted;
             this.setFpsTarget(fpsTarget);
         }
 
@@ -68,6 +72,10 @@ namespace Background{
             
             if(target <= 0) throw new Error("FPS target can't be zero or less!");
             this.fpsTargetTime = 1000 / target;
+        }
+
+        setCompleted(){
+            this.completedHandler.fire(this);
         }
 
         protected abstract drawFrame(context:CanvasRenderingContext2D, width:number, height:number, wasCleared:boolean, delta:number|undefined):void;

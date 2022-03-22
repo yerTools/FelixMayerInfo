@@ -12,8 +12,8 @@ namespace Background{
         readonly waitBeforeNextMaze:number;
         readonly colors:MazeSettings.Colors;
 
-        constructor(tileSize = 18, creationSettings?:MazeSettings.Creation, waitBeforeNextMaze = 3000, colors?:MazeSettings.Colors, fpsTarget = 30){
-            super(fpsTarget);
+        constructor(tileSize = 18, creationSettings?:MazeSettings.Creation, waitBeforeNextMaze = 3000, colors?:MazeSettings.Colors, fpsTarget?:number){
+            super(true, fpsTarget);
 
             this.tileSize = tileSize;
             this.creationSettings = creationSettings ?? new MazeSettings.Creation();
@@ -500,7 +500,10 @@ namespace Background{
 
         step(){
             for(let i = 0; i < 5; i++){
-                if(!this.clearTile(Math.round(Math.random()))) return new MazeGenerator(this.data);
+                if(!this.clearTile(Math.round(Math.random()))){
+                    this.maze.setCompleted();
+                    return new MazeGenerator(this.data);
+                } 
             }
 
             return this;
@@ -603,7 +606,7 @@ namespace Background{
             readonly goMultipleWaysPercentage:number;
             readonly stepInterval:number;
 
-            constructor(goMultipleWaysPercentage:number|undefined = 0.02, stepInterval = 1000 / 48){
+            constructor(goMultipleWaysPercentage:number|undefined = 0.04, stepInterval = 1000 / 30){
                 this.goMultipleWaysPercentage = Utilities.Numbers.clampBetween(goMultipleWaysPercentage ?? 0, 0, 1);
                 this.stepInterval = Math.max(stepInterval, 1);
             }
@@ -620,7 +623,7 @@ namespace Background{
             readonly tracerVisited:ColorType;
             readonly path:ColorType;
 
-            constructor(tile:ColorType = "rgba(200,200,200,0.8)", generator:ColorType = (x:number, y:number) => `rgb(255, ${Math.floor(156 - 156 * x)}, ${Math.floor(156 - 156 * y)})`, start:ColorType = "#98fb98", end:ColorType = "#ffa07a", tracer:ColorType = "#1e90ff", tracerVisited:ColorType = "#91c4f5", path:ColorType = (() => {
+            constructor(tile:ColorType = "rgba(210,210,210,0.8)", generator:ColorType = (x:number, y:number) => `rgb(255, ${Math.floor(156 - 156 * x)}, ${Math.floor(156 - 156 * y)})`, start:ColorType = "#98fb98", end:ColorType = "#ffa07a", tracer:ColorType = "#1e90ff", tracerVisited:ColorType = "#91c4f5", path:ColorType = (() => {
                 let vRed = 0;
                 let red = 128;
                 let green = 128;
@@ -629,9 +632,9 @@ namespace Background{
                 return (x: number, y:number) => {
                     vRed = vRed * 0.9 + Math.random() * 6 - 3;
 
-                    red = Utilities.Numbers.clampBetween(red + vRed * 0.5, 40, 180);
-                    green = Utilities.Numbers.clampBetween(Math.random() * 10 * (x - Math.random()) + Math.random() * (128 - green) * 0.02 + green, 40, 180);
-                    blue = Utilities.Numbers.clampBetween(Math.random() * 10 * (y - Math.random()) + Math.random() * (128 - blue) * 0.02 + blue, 40, 180);
+                    red = Utilities.Numbers.clampBetween(red + vRed * 0.5, 40, 170);
+                    green = Utilities.Numbers.clampBetween(Math.random() * 10 * (x - Math.random()) + Math.random() * (128 - green) * 0.02 + green, 40, 170);
+                    blue = Utilities.Numbers.clampBetween(Math.random() * 10 * (y - Math.random()) + Math.random() * (128 - blue) * 0.02 + blue, 40, 170);
 
                     return `rgb(${Math.round(red)}, ${Math.round(green)}, ${Math.round(blue)})`;
                 };
