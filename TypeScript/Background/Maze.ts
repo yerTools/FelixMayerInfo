@@ -5,7 +5,7 @@
 
 namespace Background{
     export class Maze extends Animation{
-        private mazeData?:MazeData;
+        private mazeData:MazeData|undefined;
 
         readonly tileSize:number;
         readonly creationSettings:MazeSettings.Creation;
@@ -34,6 +34,10 @@ namespace Background{
             if(delta <= 0 || !this.mazeData) return;
 
             this.mazeData.step(Math.min(delta, 1000));
+        }
+
+        protected internalReset(){
+            this.mazeData = undefined;
         }
     }
 

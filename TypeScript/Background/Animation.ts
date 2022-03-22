@@ -3,9 +3,11 @@ namespace Background{
         private currentWidth = 0;
         private currentHeight = 0;
 
-        private lastDrawTime?:number;
+        private lastDrawTime:number|undefined;
         private fpsDelta = 0;
         private fpsTargetTime:number|undefined;
+
+        private forceClear = false;
 
         readonly completedHandler = new General.EventHandler<Animation>()
         readonly canBeCompleted:boolean;
@@ -16,6 +18,9 @@ namespace Background{
         }
 
         resize(canvas:HTMLCanvasElement, context:CanvasRenderingContext2D, forceClear = false){
+            forceClear = forceClear || this.forceClear;
+            this.forceClear = false;
+           
             const size = canvas.getBoundingClientRect();
             this.currentWidth = Math.round(size.width);
             this.currentHeight = Math.round(size.height);
@@ -77,6 +82,14 @@ namespace Background{
         setCompleted(){
             this.completedHandler.fire(this);
         }
+
+        reset(){
+            this.fpsDelta = 0;
+            this.lastDrawTime = undefined;
+            this.forceClear = true;
+        }
+
+        protected abstract internalReset():void;
 
         protected abstract drawFrame(context:CanvasRenderingContext2D, width:number, height:number, wasCleared:boolean, delta:number|undefined):void;
     }
