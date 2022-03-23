@@ -12,8 +12,8 @@ namespace Background{
         readonly waitBeforeNextMaze:number;
         readonly colors:MazeSettings.Colors;
 
-        constructor(tileSize = 18, creationSettings?:MazeSettings.Creation, waitBeforeNextMaze = 3000, colors?:MazeSettings.Colors, fpsTarget?:number){
-            super(true, fpsTarget);
+        constructor(tileSize = 24, creationSettings?:MazeSettings.Creation, waitBeforeNextMaze = 3000, colors?:MazeSettings.Colors, fpsTarget?:number){
+            super("maze-animation", true, fpsTarget);
 
             this.tileSize = tileSize;
             this.creationSettings = creationSettings ?? new MazeSettings.Creation();
@@ -627,7 +627,7 @@ namespace Background{
             readonly tracerVisited:ColorType;
             readonly path:ColorType;
 
-            constructor(tile:ColorType = "rgba(210,210,210,0.8)", generator:ColorType = (x:number, y:number) => `rgb(255, ${Math.floor(156 - 156 * x)}, ${Math.floor(156 - 156 * y)})`, start:ColorType = "#98fb98", end:ColorType = "#ffa07a", tracer:ColorType = "#1e90ff", tracerVisited:ColorType = "#91c4f5", path:ColorType = (() => {
+            constructor(tile:ColorType = "rgba(210,210,210,0.6)", generator:ColorType = (x:number, y:number) => `rgb(255, ${Math.floor(156 - 156 * x)}, ${Math.floor(156 - 156 * y)})`, start:ColorType = "#98fb98", end:ColorType = "#ffa07a", tracer:ColorType = "#1e90ff", tracerVisited:ColorType = "#91c4f5", path:ColorType = (() => {
                 let vRed = 0;
                 let red = 128;
                 let green = 128;

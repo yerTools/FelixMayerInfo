@@ -23,6 +23,9 @@ function backgroundAnimation(){
     function nextBackground(_?:Background.Animation){
         const nextBackground = Math.floor(Math.random() * backgrounds.length);
         if(nextBackground !== currentBackground){
+            if(backgrounds[currentBackground]!.canvasClassName){
+                canvas.classList.remove(backgrounds[currentBackground]!.canvasClassName!);
+            }
             currentBackground = nextBackground;
             backgrounds[currentBackground]!.reset();
         }
@@ -48,7 +51,7 @@ function backgroundAnimation(){
 
         const now = new Date().getTime();
 
-        if(!background.canBeCompleted && currentBackgroundSince + 5000 < now){
+        if(!background.canBeCompleted && currentBackgroundSince + 10000 < now){
             nextBackground();
         }
 

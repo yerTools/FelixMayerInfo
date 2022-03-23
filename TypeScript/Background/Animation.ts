@@ -1,4 +1,16 @@
 namespace Background{
+
+    let windowWidth =  Math.round(innerWidth);
+    let windowHeight = Math.round(innerHeight);
+
+    function getWindowSize(){
+        windowWidth =  Math.round(innerWidth);
+        windowHeight = Math.round(innerHeight);
+    }
+
+    addEventListener("resize", getWindowSize);
+    setInterval(getWindowSize, 750);
+
     export abstract class Animation{
         private currentWidth = 0;
         private currentHeight = 0;
@@ -11,19 +23,26 @@ namespace Background{
 
         readonly completedHandler = new General.EventHandler<Animation>()
         readonly canBeCompleted:boolean;
+        readonly canvasClassName:string|undefined;
 
-        constructor(canBeCompleted:boolean, fpsTarget:number|undefined){
+        constructor(canvasClassName:string|undefined, canBeCompleted:boolean, fpsTarget:number|undefined){
+            this.canvasClassName = canvasClassName;
             this.canBeCompleted = canBeCompleted;
             this.setFpsTarget(fpsTarget);
         }
 
-        resize(canvas:HTMLCanvasElement, context:CanvasRenderingContext2D, forceClear = false){
+        resize(canvas:HTMLCanvasElement, context:CanvasRenderingContext2D, forceClear = false, fullscreen = true){
             forceClear = forceClear || this.forceClear;
             this.forceClear = false;
            
-            const size = canvas.getBoundingClientRect();
-            this.currentWidth = Math.round(size.width);
-            this.currentHeight = Math.round(size.height);
+            if(fullscreen){
+                this.currentWidth = windowWidth;
+                this.currentHeight = windowHeight;
+            }else{
+                const size = canvas.getBoundingClientRect();
+                this.currentWidth = Math.round(size.width);
+                this.currentHeight = Math.round(size.height);
+            }
 
             if(canvas.width !== this.currentWidth || canvas.height !== this.currentHeight){
                 if(canvas.width !== this.currentWidth){
@@ -45,8 +64,11 @@ namespace Background{
             return false;
         }
 
-        draw(canvas:HTMLCanvasElement, context:CanvasRenderingContext2D, forceClear = false){
-            const wasCleared = this.resize(canvas, context, forceClear);
+        draw(canvas:HTMLCanvasElement, context:CanvasRenderingContext2D, forceClear = false, fullscreen = true){
+            const wasCleared = this.resize(canvas, context, forceClear, fullscreen);
+            if(this.canvasClassName && !canvas.classList.contains(this.canvasClassName)){
+                canvas.classList.add(this.canvasClassName);
+            }
             return this.drawTo(context, this.currentWidth, this.currentHeight, wasCleared);
         }  
         

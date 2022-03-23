@@ -48,6 +48,7 @@
 
 @mixin glitch{
     position: relative;
+    white-space: nowrap;
 
     @if math.random() < 0.5{
         animation: glitch-element-keyframes random-between(6, 8, 2)+s steps(2) random-between(0, 1, 2)+s infinite alternate;

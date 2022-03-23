@@ -14,14 +14,15 @@ namespace Background{
         private static drawInterval = 1000 / 20;
         private static clearColor = "rgba(0,10,0,0.1)";
         static textColor = "#30ff30";
-        static font = "16px Consolas";
+        static font = "16px monospace";
         static columnWidth = 25;
 
         public static randomText(length:number){
             let result = "";
 
             for(let i = 0; i < length; i++){
-                const number = Math.floor(Math.random() * Matrix.totalChars);
+                const random = Math.random();
+                const number = Math.floor(random * random * random * Matrix.totalChars);
                 if(number < Matrix.hiraganaAndKatakanaEnd){
                     result += String.fromCharCode(Matrix.hiraganaAndKatakanaStart + number);
                 }else{
@@ -45,7 +46,7 @@ namespace Background{
         private delta = 0
 
         constructor(fpsTarget = 48){
-            super(false, fpsTarget);
+            super("matrix-animation", false, fpsTarget);
         }
 
         protected drawFrame(context: CanvasRenderingContext2D, width: number, height: number, wasCleared: boolean, delta: number | undefined): void {
