@@ -17,11 +17,11 @@
             transform: 
                 translate3d(random-between(-4, 4, 2)+px, random-between(-4, 4, 2)+px, 0) 
                 scale3d(random-between(0.98, 1.02, 2), random-between(0.98, 1.02, 2), 1)
-                rotateZ(random-between(-2, 2, 1)+deg);
+                rotateZ(random-between(-1.6, 1.6, 1)+deg);
 
             clip: rect($top+px, 9999px, calc($top + $height)+px, 0);
 
-            color: rgba(random-between(0, 255, 0), random-between(0, 255, 0), random-between(0, 255, 0), random-between(0, 1, 2));
+            color: rgba(random-between(55, 200, 0), random-between(55, 200, 0), random-between(55, 200, 0), random-between(0, 0.6, 2));
         }
     }
 }
@@ -31,9 +31,9 @@
     @for $i from 0 through 30{
         #{math.percentage(math.div($i, 30))}{
             transform: 
-                translate3d(random-between(-4, 4, 2)+px, random-between(-4, 4, 2)+px, 0) 
-                scale3d(random-between(0.98, 1.02, 2), random-between(0.98, 1.02, 2), 1)
-                rotateZ(random-between(-1.5, 1.5, 1)+deg);
+                translate3d(random-between(-3, 3, 2)+px, random-between(-3, 3, 2)+px, 0) 
+                scale3d(random-between(0.985, 1.015, 2), random-between(0.985, 1.015, 2), 1)
+                rotateZ(random-between(-1.25, 1.25, 1)+deg);
 
             opacity: random-between(0.4, 1, 2);
             @if math.random() < 0.5{
@@ -51,10 +51,10 @@
     white-space: nowrap;
 
     @if math.random() < 0.5{
-        animation: glitch-element-keyframes random-between(6, 8, 2)+s steps(2) random-between(0, 1, 2)+s infinite alternate;
+        animation: glitch-element-keyframes random-between(8, 10, 2)+s steps(2) random-between(0, 1, 2)+s infinite alternate;
     }
     @else{
-        animation: glitch-element-keyframes random-between(6, 8, 2)+s steps(2) random-between(0, 1, 2)+s infinite alternate-reverse;
+        animation: glitch-element-keyframes random-between(8, 10, 2)+s steps(2) random-between(0, 1, 2)+s infinite alternate-reverse;
     }
     &::before,&::after{
         content: attr(data-glitch-text);
@@ -71,10 +71,10 @@
         clip: rect(0px, 9999px, 0px, 0px);
         
         @if math.random() < 0.5{
-            animation: glitch-before-keyframes random-between(4, 6, 2)+s steps(2) random-between(0, 1, 2)+s infinite alternate;
+            animation: glitch-before-keyframes random-between(6, 8, 2)+s steps(2) random-between(0, 1, 2)+s infinite alternate;
         }
         @else{
-            animation: glitch-before-keyframes random-between(4, 6, 2)+s steps(2) random-between(0, 1, 2)+s infinite alternate-reverse;
+            animation: glitch-before-keyframes random-between(6, 8, 2)+s steps(2) random-between(0, 1, 2)+s infinite alternate-reverse;
         }
     }
 
@@ -82,10 +82,10 @@
         z-index: -1;
         
         @if math.random() < 0.5{
-            animation: glitch-after-keyframes random-between(4, 6, 2)+s steps(2) random-between(0, 1, 2)+s infinite alternate;
+            animation: glitch-after-keyframes random-between(6, 8, 2)+s steps(2) random-between(0, 1, 2)+s infinite alternate;
         }
         @else{
-            animation: glitch-after-keyframes random-between(4, 6, 2)+s steps(2) random-between(0, 1, 2)+s infinite alternate-reverse;
+            animation: glitch-after-keyframes random-between(6, 8, 2)+s steps(2) random-between(0, 1, 2)+s infinite alternate-reverse;
         }
     }
 

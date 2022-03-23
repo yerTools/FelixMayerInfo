@@ -8,21 +8,21 @@ namespace Background{
         private static hiraganaAndKatakanaSize = Matrix.hiraganaAndKatakanaEnd - Matrix.hiraganaAndKatakanaStart;
 
         private static kanjiStart = 0x4e00;
-        private static kanjiEnd = 0x9fb0;
+        private static kanjiEnd = 0x6000;
         private static totalChars = Matrix.kanjiEnd - Matrix.kanjiStart + Matrix.hiraganaAndKatakanaSize; 
 
-        private static drawInterval = 1000 / 20;
+        private static drawInterval = 1000 / 18;
         private static clearColor = "rgba(0,10,0,0.1)";
         static textColor = "#30ff30";
-        static font = "16px monospace";
-        static columnWidth = 25;
+        static font = "20px monospace";
+        static columnWidth = 32;
 
         public static randomText(length:number){
             let result = "";
 
             for(let i = 0; i < length; i++){
                 const random = Math.random();
-                const number = Math.floor(random * random * random * Matrix.totalChars);
+                const number = Math.floor(random * random * Matrix.totalChars);
                 if(number < Matrix.hiraganaAndKatakanaEnd){
                     result += String.fromCharCode(Matrix.hiraganaAndKatakanaStart + number);
                 }else{
@@ -50,7 +50,7 @@ namespace Background{
         }
 
         protected drawFrame(context: CanvasRenderingContext2D, width: number, height: number, wasCleared: boolean, delta: number | undefined): void {
-            const targetChars = Math.ceil(width / 10);
+            const targetChars = Math.ceil(2.5 * width / Matrix.columnWidth);
             while(this.characters.length < targetChars){
                 const random = Math.random();
 
@@ -70,7 +70,7 @@ namespace Background{
                     x: Math.round(Math.round(x / Matrix.columnWidth) * Matrix.columnWidth + Matrix.columnWidth / 2),
                     y: y,
                     charIndex: 0,
-                    velocityCharChange: 50 * random * random,
+                    velocityCharChange: 50 * random * random + 2,
                     velocityY: 400 * Math.random() + 100,
                     lifetime: 0
                 });
