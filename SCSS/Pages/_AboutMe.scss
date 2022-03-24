@@ -1,0 +1,12 @@
+#page-about-me{
+    & > div.content{
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 4px 8px;
+        margin: 10px 20px;
+        backdrop-filter: blur(4px);
+
+        &.dark{
+        background-color: rgba(0, 0, 0, 0.7);
+        }
+    }
+}

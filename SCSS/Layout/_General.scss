@@ -1,5 +1,6 @@
 body{
     font-family: 'Source Sans 3 VF', 'Source Sans 3', sans-serif;
+    font-size: 18px;
     background-color: #000000;
     color: #ffffff;
 
@@ -20,6 +21,9 @@ h1, h2{
 
     div.full-page{
         position: relative;
+
+        max-width: 1024px;
+        margin: auto;
 
         min-width: 100%;
         min-height: 100%;
