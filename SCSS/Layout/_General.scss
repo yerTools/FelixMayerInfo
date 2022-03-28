@@ -32,6 +32,28 @@ h1, h2{
             min-height: 100%;
         }
     }
-
     
+}
+
+*::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: rgba(#1ca2f0, 0.25);
+}
+
+*::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(#1ca2f0, 0.3);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: rgba(#1ca2f0, 0.7);
+}
+
+*::-webkit-scrollbar-thumb:active {
+    background: #1ca2f0;
 }
