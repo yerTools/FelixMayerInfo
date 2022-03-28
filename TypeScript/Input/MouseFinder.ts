@@ -31,7 +31,7 @@ namespace Input{
         pointerChanged.fire(pointerPosition);
     });
 
-    addEventListener("mouseout", () => {
+    function mouseOut(){
         lastMouseOut = new Date().getTime();
         if(lastMove === lastMouseOut) return;
 
@@ -44,7 +44,10 @@ namespace Input{
             pointerPosition = touchPosition;
             pointerChanged.fire(pointerPosition);
         }, 10);
-    });
+    }
+
+    addEventListener("mouseout", mouseOut);
+    addEventListener("mouseleave", mouseOut);
 
     function touchChanged(touches:TouchList){
         touchPositions.length = 0;
