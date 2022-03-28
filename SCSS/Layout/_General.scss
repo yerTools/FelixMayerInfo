@@ -19,13 +19,19 @@ h1, h2{
     width: 100%;
     overflow: auto;
 
-    div.full-page{
-        position: relative;
-
-        max-width: 1024px;
+    #page-content{
+        max-width: 1280px;
         margin: auto;
 
-        min-width: 100%;
-        min-height: 100%;
+        div.full-page{
+            position: relative;
+    
+            margin: auto;
+    
+            min-width: 100%;
+            min-height: 100%;
+        }
     }
+
+    
 }
