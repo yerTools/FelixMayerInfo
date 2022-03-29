@@ -18,7 +18,7 @@ canvas.background-animation{
     pointer-events: none;
     opacity: 0.5;
 
-    background: repeating-linear-gradient(0deg, #000 0px, #000 2px, #282828 3px, #282828 5px, #000 6px);
+    background: repeating-linear-gradient(0deg, #000 0px, #000 2px, #181818 3px, #181818 5px, #000 6px);
     background-size: 6px 6px;
 
     animation: background-animation-keyframes 250ms steps(6) infinite;
