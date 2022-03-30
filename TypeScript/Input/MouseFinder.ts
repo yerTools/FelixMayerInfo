@@ -2,7 +2,6 @@
 /// <reference path="../General/EventHandler.ts" />
 
 
-
 namespace Input{
     export let pointerPosition:General.Point2D|undefined;
     export const pointerChanged = new General.EventHandler<General.Point2D|undefined>();
@@ -12,6 +11,7 @@ namespace Input{
 
     let lastMouseOut = 0;
     let lastMove = 0;
+    let lastTouch = 0;
     let lastTouchOut = 0;
     let mouseOutTimeout:number|undefined;
 
@@ -58,6 +58,7 @@ namespace Input{
 
         touchPosition = undefined;
         if(touchPositions.length){
+            lastTouch = new Date().getTime();
             for(let id in touchPositions){
                 touchPosition = touchPositions[id];
                 break;
@@ -75,4 +76,18 @@ namespace Input{
     addEventListener("touchstart", event => touchChanged(event.touches));
     addEventListener("touchmove", event => touchChanged(event.touches));
     addEventListener("touchend", event => touchChanged(event.touches));
+
+    setInterval(() => {
+        const timeout = new Date().getTime() - 4000;
+        if(mousePosition && lastMove < timeout){
+            mousePosition = undefined;
+            pointerPosition = touchPosition;
+            pointerChanged.fire(pointerPosition);
+        }
+        if(touchPosition && lastTouch < timeout){
+            touchPosition = undefined;
+            pointerPosition = mousePosition;
+            pointerChanged.fire(pointerPosition);
+        }
+    }, 1000);
 }
