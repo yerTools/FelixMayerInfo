@@ -23,11 +23,25 @@ h1, h2{
         max-width: 1280px;
         margin: auto;
 
+        div.half-page,
+        div.eighty-five-percent-page, 
         div.full-page{
             position: relative;
     
             margin: auto;
-    
+        }
+
+        div.half-page{
+            min-width: 50%;
+            min-height: 50%;
+        }
+
+        div.eighty-five-percent-page{
+            min-width: 85%;
+            min-height: 85%;
+        }
+
+        div.full-page{
             min-width: 100%;
             min-height: 100%;
         }

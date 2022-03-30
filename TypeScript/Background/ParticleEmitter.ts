@@ -2,26 +2,32 @@
 
 namespace Background{
     export class ParticleEmitter extends Animation{
-        static colorCount = 24; 
+        static colorCount = 32; 
 
         private readonly colors:[number, number, number, number][] = [];
 
         private readonly particles:{
             x:number,
             y:number
+
             velocityX:number,
             velocityY:number,
+            velocityAngle:number,
+
             accelerationX:number,
             accelerationY:number,
+            
             size:number,
+            angle:number,
+            
             lifetime:number,
             maximumLifetime:number
         }[][] = [];
 
         private currentParticleCount = 0;
 
-        constructor(fpsTarget = 48){
-            super("particles-animation", false, fpsTarget);
+        constructor(fpsTarget?:number){
+            super("particle-emitter-animation", false, fpsTarget);
         }
 
         protected drawFrame(context: CanvasRenderingContext2D, width: number, height: number, wasCleared: boolean, delta: number | undefined): void {
@@ -34,7 +40,7 @@ namespace Background{
                 ]);
             }
 
-            const particleCount = Math.ceil(width * height / 3500);
+            const particleCount = Math.ceil(width * height / 9000);
 
             while(this.currentParticleCount < particleCount){
                 const color = Math.floor(Math.random() * this.colors.length);
@@ -47,11 +53,17 @@ namespace Background{
                 this.particles[color]!.push({
                     accelerationX: 0,
                     accelerationY: 0,
+
                     lifetime: 0,
                     maximumLifetime: Math.floor(Math.random() * 100) / 10 + 2,
-                    size: Math.floor(Math.random() * 10) + 5,
+
+                    size: Math.floor(Math.random() * 16) + 3,
+                    angle: Math.random() * 2 * Math.PI,
+
                     velocityX: Math.random() * 200 - 100,
                     velocityY: Math.random() * 200 - 100,
+                    velocityAngle: Math.random() * 2 - 1,
+                    
                     x: usePointerPosition ? Input.pointerPosition!.x * width + Math.random() * 120 - 60 : Math.random() * width,
                     y: usePointerPosition ? Input.pointerPosition!.y * height + Math.random() * 120 - 60 : Math.random() * height
                 });
@@ -70,14 +82,16 @@ namespace Background{
             }
             delta /= 1000;
 
-            const PI2 = 2 * Math.PI;
+            context.save();
+
+            const defaultMatrix = new DOMMatrix();
+            console.log(defaultMatrix);
 
             for(let color = 0; color < this.particles.length; color++){
                 if(!this.particles[color]) continue;
                 
                 const particles = this.particles[color]!;
                 context.fillStyle = `rgba(${this.colors[color]![0]},${this.colors[color]![1]},${this.colors[color]![2]},${this.colors[color]![3]})`;
-                context.beginPath();
 
                 for(let i = 0; i < particles.length; i++){
                     const particle = particles[i]!;
@@ -88,16 +102,16 @@ namespace Background{
                         let deltaX = particle.x / width - Input.pointerPosition.x;
                         let deltaY = particle.y / height - Input.pointerPosition.y;
 
-                        if(deltaX < 0 && deltaX > -0.01){
-                            deltaX = -0.01;
-                        }else if(deltaX >= 0 && deltaX < 0.01){
-                            deltaX = 0.01;
+                        if(deltaX < 0 && deltaX > -0.05){
+                            deltaX = -0.05;
+                        }else if(deltaX >= 0 && deltaX < 0.05){
+                            deltaX = 0.05;
                         }
 
-                        if(deltaY < 0 && deltaY > -0.01){
-                            deltaY = -0.01;
-                        }else if(deltaY >= 0 && deltaY < 0.01){
-                            deltaY = 0.01;
+                        if(deltaY < 0 && deltaY > -0.05){
+                            deltaY = -0.05;
+                        }else if(deltaY >= 0 && deltaY < 0.05){
+                            deltaY = 0.05;
                         }
 
                         particle.accelerationX = -0.001 * width *  1 / deltaX;
@@ -109,6 +123,7 @@ namespace Background{
 
                     particle.x += particle.velocityX * delta;
                     particle.y += particle.velocityY * delta;
+                    particle.angle += particle.velocityAngle * delta;
 
                     if(particle.lifetime >= particle.maximumLifetime 
                     || particle.x + particle.size <= 0
@@ -120,17 +135,18 @@ namespace Background{
                         continue;        
                     }
 
-                    context.arc(
-                        particle.x,
-                        particle.y,
-                        particle.lifetime < 1 ? particle.lifetime * particle.size : (particle.maximumLifetime - particle.lifetime < 1 ? particle.size * (particle.maximumLifetime - particle.lifetime) : particle.size),
-                        0,
-                        PI2
-                    );
-                    context.closePath();
+                    const radius = particle.lifetime < 1 ? particle.lifetime * particle.size : (particle.maximumLifetime - particle.lifetime < 1 ? particle.size * (particle.maximumLifetime - particle.lifetime) : particle.size);
+
+                    context.save(),
+
+                    context.translate(Math.round(particle.x + radius), Math.round(particle.y + radius));
+                    context.rotate(particle.angle);
+
+                    context.fillRect(Math.round(-radius), Math.round(-radius), Math.round(radius * 2), Math.round(radius * 2));
+                    context.restore();
                 }
-                context.fill();
             }
+
         }
 
         protected internalReset(){

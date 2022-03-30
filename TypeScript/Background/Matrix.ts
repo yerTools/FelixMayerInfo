@@ -50,7 +50,7 @@ namespace Background{
         }
 
         protected drawFrame(context: CanvasRenderingContext2D, width: number, height: number, wasCleared: boolean, delta: number | undefined): void {
-            const targetChars = Math.ceil(2.5 * width / Matrix.columnWidth);
+            const targetChars = Math.ceil(2 * width / Matrix.columnWidth);
             while(this.characters.length < targetChars){
                 const random = Math.random();
 

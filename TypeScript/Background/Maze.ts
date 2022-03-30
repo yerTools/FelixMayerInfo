@@ -12,7 +12,7 @@ namespace Background{
         readonly waitBeforeNextMaze:number;
         readonly colors:MazeSettings.Colors;
 
-        constructor(tileSize = 24, creationSettings?:MazeSettings.Creation, waitBeforeNextMaze = 3000, colors?:MazeSettings.Colors, fpsTarget?:number){
+        constructor(tileSize = 12, creationSettings?:MazeSettings.Creation, waitBeforeNextMaze = 3000, colors?:MazeSettings.Colors, fpsTarget?:number){
             super("maze-animation", true, fpsTarget);
 
             this.tileSize = tileSize;

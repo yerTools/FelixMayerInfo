@@ -34,4 +34,8 @@ canvas.background-animation{
     &.matrix-animation{
         opacity: 0.6;
     }
+
+    &.particle-emitter-animation{
+        opacity: 0.5;
+    }
 }
