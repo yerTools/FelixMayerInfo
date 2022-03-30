@@ -3,10 +3,12 @@
 
 /// <reference path="Input/MouseFinder.ts" />
 
+/// <reference path="Libraries/Charts/PieChart.ts" />
+
 /// <reference path="Background/Animation.ts" />
 /// <reference path="Background/Maze.ts" />
 /// <reference path="Background/Matrix.ts" />
-
+/// <reference path="Background/ParticleEmitter.ts" />
 
 
 Input.pointerChanged.on(console.log);
@@ -14,7 +16,8 @@ Input.pointerChanged.on(console.log);
 function backgroundAnimation(){
     const backgrounds:Background.Animation[] = [
         new Background.Matrix(),
-        new Background.Maze()
+        new Background.Maze(),
+        new Background.ParticleEmitter()
     ];
     
     let currentBackground = Math.floor(Math.random() * backgrounds.length);
