@@ -76,11 +76,12 @@ namespace Background{
             }
 
             if(delta === undefined){
-                delta = 50;
+                delta = 0.05;
             }else if(delta > 1000){
-                delta = 1000;
+                delta = 1;
+            }else{
+                delta /= 1000;
             }
-            delta /= 1000;
 
             context.save();
 
@@ -126,9 +127,9 @@ namespace Background{
                     particle.angle += particle.velocityAngle * delta;
 
                     if(particle.lifetime >= particle.maximumLifetime 
-                    || particle.x + particle.size <= 0
+                    || particle.x + particle.size * 3 <= 0
                     || particle.x - particle.size >= width
-                    || particle.y + particle.size <= 0
+                    || particle.y + particle.size * 3 <= 0
                     || particle.y - particle.size >= height){
                         particles.splice(i--, 1);
                         this.currentParticleCount--;

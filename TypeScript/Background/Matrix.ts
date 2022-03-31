@@ -49,7 +49,9 @@ namespace Background{
             super("matrix-animation", false, fpsTarget);
         }
 
-        protected drawFrame(context: CanvasRenderingContext2D, width: number, height: number, wasCleared: boolean, delta: number | undefined): void {
+        protected drawFrame(context: CanvasRenderingContext2D, width: number, height: number, wasCleared: boolean, delta: number | undefined){
+            const wasEmpty = this.characters.length === 0;
+
             const targetChars = Math.ceil(2 * width / Matrix.columnWidth);
             while(this.characters.length < targetChars){
                 const random = Math.random();
@@ -76,7 +78,7 @@ namespace Background{
                 });
             }
 
-            if(wasCleared){
+            if(wasCleared && !wasEmpty){
                 for(let x = 0; x < 10; x++){
                     for(let i = 0; i < this.characters.length; i++){
                         this.characters[i]!.velocityY -= Matrix.drawInterval / 1000 * 100;
@@ -88,7 +90,7 @@ namespace Background{
                 }
             }
 
-            this.delta += delta ?? 100;
+            this.delta += delta ?? Matrix.drawInterval;
             while(this.delta >= Matrix.drawInterval){
                 this.drawCharacters(context, width, height, Matrix.drawInterval / 1000);
                 this.delta -= Matrix.drawInterval;

@@ -109,6 +109,7 @@ namespace Background{
             this.fpsDelta = 0;
             this.lastDrawTime = undefined;
             this.forceClear = true;
+            this.internalReset();
         }
 
         protected abstract internalReset():void;
