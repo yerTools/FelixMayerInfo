@@ -503,7 +503,7 @@ namespace Background{
         }
 
         step(){
-            for(let i = 0; i < 5; i++){
+            for(let i = 0; i < 10; i++){
                 if(!this.clearTile(Math.round(Math.random()))){
                     this.maze.setCompleted();
                     return new MazeGenerator(this.data);
