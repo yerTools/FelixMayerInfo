@@ -23,11 +23,13 @@ namespace Background{
 
         readonly completedHandler = new General.EventHandler<Animation>()
         readonly canBeCompleted:boolean;
+        readonly canBeEnded:boolean;
         readonly canvasClassName:string|undefined;
 
-        constructor(canvasClassName:string|undefined, canBeCompleted:boolean, fpsTarget:number|undefined){
+        constructor(canvasClassName:string|undefined, canBeCompleted:boolean, canBeEnded:boolean, fpsTarget:number|undefined){
             this.canvasClassName = canvasClassName;
             this.canBeCompleted = canBeCompleted;
+            this.canBeEnded = canBeEnded;
             this.setFpsTarget(fpsTarget);
         }
 
@@ -111,6 +113,15 @@ namespace Background{
             this.forceClear = true;
             this.internalReset();
         }
+
+        endAnimation(){
+            if(!this.canBeEnded) return false;
+
+            this.internalEndAnimation();
+            return true;
+        }
+
+        protected abstract internalEndAnimation():void;
 
         protected abstract internalReset():void;
 

@@ -5,6 +5,7 @@
 
 namespace Background{
     export class Maze extends Animation{
+        
         private mazeData:MazeData|undefined;
 
         readonly tileSize:number;
@@ -13,7 +14,7 @@ namespace Background{
         readonly colors:MazeSettings.Colors;
 
         constructor(tileSize = 12, creationSettings?:MazeSettings.Creation, waitBeforeNextMaze = 3000, colors?:MazeSettings.Colors, fpsTarget?:number){
-            super("maze-animation", true, fpsTarget);
+            super("maze-animation", true, false, fpsTarget);
 
             this.tileSize = tileSize;
             this.creationSettings = creationSettings ?? new MazeSettings.Creation();
@@ -38,6 +39,9 @@ namespace Background{
 
         protected internalReset(){
             this.mazeData = undefined;
+        }
+
+        protected internalEndAnimation(){
         }
     }
 

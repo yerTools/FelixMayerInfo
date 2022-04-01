@@ -20,23 +20,31 @@ function backgroundAnimation(){
         new Background.ParticleEmitter()
     ];
     
+    let nextBackgroundIndex:number|undefined;
     let currentBackground = Math.floor(Math.random() * backgrounds.length);
     let currentBackgroundSince = new Date().getTime();
 
     function nextBackground(_?:Background.Animation){
-        const nextBackground = Math.floor(Math.random() * backgrounds.length);
+        const nextBackground = nextBackgroundIndex ?? Math.floor(Math.random() * backgrounds.length);
         if(nextBackground !== currentBackground){
-            if(backgrounds[currentBackground]!.canvasClassName){
-                canvas.classList.remove(backgrounds[currentBackground]!.canvasClassName!);
+            if(nextBackgroundIndex === undefined && backgrounds[currentBackground]!.canBeEnded){
+                backgrounds[currentBackground]!.endAnimation();
+                nextBackgroundIndex = nextBackground;
+            }else{
+                nextBackgroundIndex = undefined;
+
+                if(backgrounds[currentBackground]!.canvasClassName){
+                    canvas.classList.remove(backgrounds[currentBackground]!.canvasClassName!);
+                }
+                currentBackground = nextBackground;
+                backgrounds[currentBackground]!.reset();
             }
-            currentBackground = nextBackground;
-            backgrounds[currentBackground]!.reset();
         }
         currentBackgroundSince = new Date().getTime();
     }
 
     for(let i = 0; i < backgrounds.length; i++){
-        if(backgrounds[i]!.canBeCompleted){
+        if(backgrounds[i]!.canBeCompleted || backgrounds[i]!.canBeEnded){
             backgrounds[i]!.completedHandler.on(nextBackground);
         }
     }

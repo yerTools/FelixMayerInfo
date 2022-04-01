@@ -43,16 +43,21 @@ namespace Background{
             lifetime:number
         }[] = [];
 
-        private delta = 0
+        private delta = 0;
+        private stopped = false;
 
         constructor(fpsTarget = 48){
-            super("matrix-animation", false, fpsTarget);
+            super("matrix-animation", false, true, fpsTarget);
+        }
+
+        protected internalEndAnimation(){
+            this.stopped = true;
         }
 
         protected drawFrame(context: CanvasRenderingContext2D, width: number, height: number, wasCleared: boolean, delta: number | undefined){
             const wasEmpty = this.characters.length === 0;
 
-            const targetChars = Math.ceil(2 * width / Matrix.columnWidth);
+            const targetChars = this.stopped ? 0 : Math.ceil(2 * width / Matrix.columnWidth);
             while(this.characters.length < targetChars){
                 const random = Math.random();
 
@@ -95,8 +100,12 @@ namespace Background{
                 this.drawCharacters(context, width, height, Matrix.drawInterval / 1000);
                 this.delta -= Matrix.drawInterval;
             }
+
+            if(this.stopped && this.characters.length === 0){
+                this.internalReset();
+                this.completedHandler.fire(this);
+            }
         }
-        
 
         private drawCharacters(context: CanvasRenderingContext2D, width: number, height: number, delta:number){
             context.fillStyle = Matrix.clearColor;
@@ -124,6 +133,7 @@ namespace Background{
         }
 
         protected internalReset(){
+            this.stopped = false;
             this.characters.length = 0;
         }
     }

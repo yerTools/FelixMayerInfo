@@ -25,9 +25,10 @@ namespace Background{
         }[][] = [];
 
         private currentParticleCount = 0;
+        private stopped = false;
 
         constructor(fpsTarget?:number){
-            super("particle-emitter-animation", false, fpsTarget);
+            super("particle-emitter-animation", false, true, fpsTarget);
         }
 
         protected drawFrame(context: CanvasRenderingContext2D, width: number, height: number, wasCleared: boolean, delta: number | undefined): void {
@@ -40,7 +41,7 @@ namespace Background{
                 ]);
             }
 
-            const particleCount = Math.ceil(width * height / 9000);
+            const particleCount = this.stopped ? 0 : Math.ceil(width * height / 9000);
 
             while(this.currentParticleCount < particleCount){
                 const color = Math.floor(Math.random() * this.colors.length);
@@ -83,10 +84,6 @@ namespace Background{
                 delta /= 1000;
             }
 
-            context.save();
-
-            const defaultMatrix = new DOMMatrix();
-            console.log(defaultMatrix);
 
             for(let color = 0; color < this.particles.length; color++){
                 if(!this.particles[color]) continue;
@@ -97,7 +94,7 @@ namespace Background{
                 for(let i = 0; i < particles.length; i++){
                     const particle = particles[i]!;
 
-                    particle.lifetime += delta;
+                    particle.lifetime += this.stopped ? 3 * delta : delta;
 
                     if(Input.pointerPosition){
                         let deltaX = particle.x / width - Input.pointerPosition.x;
@@ -138,8 +135,7 @@ namespace Background{
 
                     const radius = particle.lifetime < 1 ? particle.lifetime * particle.size : (particle.maximumLifetime - particle.lifetime < 1 ? particle.size * (particle.maximumLifetime - particle.lifetime) : particle.size);
 
-                    context.save(),
-
+                    context.save();
                     context.translate(Math.round(particle.x + radius), Math.round(particle.y + radius));
                     context.rotate(particle.angle);
 
@@ -148,9 +144,18 @@ namespace Background{
                 }
             }
 
+            if(this.stopped && this.currentParticleCount === 0){
+                this.internalReset();
+                this.completedHandler.fire(this);
+            }
+        }
+
+        protected internalEndAnimation(){
+            this.stopped = true;
         }
 
         protected internalReset(){
+            this.stopped = false;
             this.colors.length = 0;
             this.particles.length = 0;
             this.currentParticleCount = 0;
