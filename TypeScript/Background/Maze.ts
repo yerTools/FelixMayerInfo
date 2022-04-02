@@ -377,6 +377,7 @@ namespace Background{
 
     class MazeTracer extends MazeState{
         private solving = false;
+        private currentStep = 0;
         private paths:General.Point2D[][]
 
         readonly isSolver:boolean;
@@ -403,84 +404,91 @@ namespace Background{
             if(!this.paths.length) return new MazeClearer(this.data);
 
             if(this.solving){
-                if(!this.paths[0]!.length){
-                    return new MazeStateWaiter(this.maze.waitBeforeNextMaze / this.maze.creationSettings.stepInterval, new MazeClearer(this.data));
-                }
-                
-                if(this.paths[0]!.length > 1){
-                    this.data.setTileColor(this.paths[0]![this.paths[0]!.length - 1]!, this.maze.colors.path);
-                }
+                for(let i = 0; i < 2; i++){
+                    if(!this.paths[0]!.length){
+                        return new MazeStateWaiter(this.maze.waitBeforeNextMaze / this.maze.creationSettings.stepInterval, new MazeClearer(this.data));
+                    }
+                    
+                    if(this.paths[0]!.length > 1){
+                        this.data.setTileColor(this.paths[0]![this.paths[0]!.length - 1]!, this.maze.colors.path);
+                    }
 
-                this.paths[0]!.length--;
+                    this.paths[0]!.length--;
+                }
             }else{
-                const newPaths:General.Point2D[][] = [];
+                this.currentStep++;
 
-                for(let i = 0; i < this.paths.length; i++){
-                    const current = this.paths[i]![this.paths[i]!.length - 1]!;
-                    const next:General.Point2D[] = [];
+                const speedUp = !this.isSolver ? 1 : Math.round(this.currentStep / 400) + 1;
+                for(let repeat = 0; repeat < speedUp && !this.solving; repeat++){
+                    const newPaths:General.Point2D[][] = [];
 
-                    if(current.y >= 1 && !this.visitedTiles[current.x]![current.y - 1]){
-                        this.visitedTiles[current.x]![current.y - 1] = true;
-                        if(this.data.tileColors[current.x]![current.y - 1]){
-                            next.push(new General.Point2D(current.x, current.y - 1));
+                    for(let i = 0; i < this.paths.length; i++){
+                        const current = this.paths[i]![this.paths[i]!.length - 1]!;
+                        const next:General.Point2D[] = [];
+
+                        if(current.y >= 1 && !this.visitedTiles[current.x]![current.y - 1]){
+                            this.visitedTiles[current.x]![current.y - 1] = true;
+                            if(this.data.tileColors[current.x]![current.y - 1]){
+                                next.push(new General.Point2D(current.x, current.y - 1));
+                            }
                         }
-                    }
-                    if(current.x + 1 < this.data.tilesX && !this.visitedTiles[current.x + 1]![current.y]){
-                        this.visitedTiles[current.x + 1]![current.y] = true;
-                        if(this.data.tileColors[current.x + 1]![current.y]){
-                            next.push(new General.Point2D(current.x + 1, current.y));
+                        if(current.x + 1 < this.data.tilesX && !this.visitedTiles[current.x + 1]![current.y]){
+                            this.visitedTiles[current.x + 1]![current.y] = true;
+                            if(this.data.tileColors[current.x + 1]![current.y]){
+                                next.push(new General.Point2D(current.x + 1, current.y));
+                            }
                         }
-                    }
-                    if(current.y + 1 < this.data.tilesY && !this.visitedTiles[current.x]![current.y + 1]){
-                        this.visitedTiles[current.x]![current.y + 1] = true;
-                        if(this.data.tileColors[current.x]![current.y + 1]){
-                            next.push(new General.Point2D(current.x, current.y + 1));
+                        if(current.y + 1 < this.data.tilesY && !this.visitedTiles[current.x]![current.y + 1]){
+                            this.visitedTiles[current.x]![current.y + 1] = true;
+                            if(this.data.tileColors[current.x]![current.y + 1]){
+                                next.push(new General.Point2D(current.x, current.y + 1));
+                            }
                         }
-                    }
-                    if(current.x >= 1 && !this.visitedTiles[current.x - 1]![current.y]){
-                        this.visitedTiles[current.x - 1]![current.y] = true;
-                        if(this.data.tileColors[current.x - 1]![current.y]){
-                            next.push(new General.Point2D(current.x - 1, current.y));
+                        if(current.x >= 1 && !this.visitedTiles[current.x - 1]![current.y]){
+                            this.visitedTiles[current.x - 1]![current.y] = true;
+                            if(this.data.tileColors[current.x - 1]![current.y]){
+                                next.push(new General.Point2D(current.x - 1, current.y));
+                            }
                         }
-                    }
 
-                    if(this.paths[i]!.length > 1){
-                        this.data.setTileColor(this.paths[i]![this.paths[i]!.length - 1]!, this.isSolver ? this.maze.colors.tile : this.maze.colors.tracerVisited);
-                    }
-
-                    if(!next.length) continue;
-
-                    this.data.setTileColor(next[0]!, this.maze.colors.tracer);
-
-                    for(let x = 1; x < next.length; x++){
-                        this.data.setTileColor(next[x]!, this.maze.colors.tracer);
-
-                        const copy = this.paths[i]!.slice();
-                        copy.push(next[x]!);
-                        newPaths.push(copy);
-                    }
-
-                    this.paths[i]!.push(next[0]!);
-                    newPaths.push(this.paths[i]!);
-                }
-
-                if(newPaths.length){
-                    this.paths = newPaths;
-                }else{
-                    while(this.paths.length > 1){
-                        if(this.paths[0]!.length < this.paths[this.paths.length - 1]!.length){
-                            this.paths[0] = this.paths[this.paths.length - 1]!;
+                        if(this.paths[i]!.length > 1){
+                            this.data.setTileColor(this.paths[i]![this.paths[i]!.length - 1]!, this.isSolver ? this.maze.colors.tile : this.maze.colors.tracerVisited);
                         }
-                        this.paths.length--;
+
+                        if(!next.length) continue;
+
+                        this.data.setTileColor(next[0]!, this.maze.colors.tracer);
+
+                        for(let x = 1; x < next.length; x++){
+                            this.data.setTileColor(next[x]!, this.maze.colors.tracer);
+
+                            const copy = this.paths[i]!.slice();
+                            copy.push(next[x]!);
+                            newPaths.push(copy);
+                        }
+
+                        this.paths[i]!.push(next[0]!);
+                        newPaths.push(this.paths[i]!);
                     }
 
-                    this.data.setTileColor(this.paths[0]![this.paths[0]!.length - 1]!, this.isSolver ? this.maze.colors.start : this.maze.colors.end);
-
-                    if(this.isSolver){
-                        this.paths[0]!.length--;
-                        this.solving = true;
+                    if(newPaths.length){
+                        this.paths = newPaths;
                     }else{
-                        return new MazeTracer(this.data, this.paths[0]![this.paths[0]!.length - 1]!, true);
+                        while(this.paths.length > 1){
+                            if(this.paths[0]!.length < this.paths[this.paths.length - 1]!.length){
+                                this.paths[0] = this.paths[this.paths.length - 1]!;
+                            }
+                            this.paths.length--;
+                        }
+
+                        this.data.setTileColor(this.paths[0]![this.paths[0]!.length - 1]!, this.isSolver ? this.maze.colors.start : this.maze.colors.end);
+
+                        if(this.isSolver){
+                            this.paths[0]!.length--;
+                            this.solving = true;
+                        }else{
+                            return new MazeTracer(this.data, this.paths[0]![this.paths[0]!.length - 1]!, true);
+                        }
                     }
                 }
             }
@@ -499,6 +507,8 @@ namespace Background{
         private currentColumn = 0;
         private clearRow = true;
 
+        private stepCount = 0;
+
         constructor (data:MazeData){
             super(data);
 
@@ -507,7 +517,10 @@ namespace Background{
         }
 
         step(){
-            for(let i = 0; i < 10; i++){
+            this.stepCount++;
+            
+            const clearTiles = Math.round(10 + this.stepCount);
+            for(let i = 0; i < clearTiles; i++){
                 if(!this.clearTile(Math.round(Math.random()))){
                     this.maze.setCompleted();
                     return new MazeGenerator(this.data);

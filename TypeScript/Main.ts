@@ -62,7 +62,7 @@ function backgroundAnimation(){
 
         const now = new Date().getTime();
 
-        if(!background.canBeCompleted && currentBackgroundSince + 10000 < now){
+        if(!background.canBeCompleted && currentBackgroundSince + (nextBackgroundIndex === undefined ? 10000 : 30000) < now){
             nextBackground();
         }
 

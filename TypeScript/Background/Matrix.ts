@@ -45,6 +45,7 @@ namespace Background{
 
         private delta = 0;
         private stopped = false;
+        private clearBackground = 0;
 
         constructor(fpsTarget = 48){
             super("matrix-animation", false, true, fpsTarget);
@@ -102,8 +103,20 @@ namespace Background{
             }
 
             if(this.stopped && this.characters.length === 0){
-                this.internalReset();
-                this.completedHandler.fire(this);
+                this.clearBackground += delta ?? 50;
+
+                if(this.clearBackground < 500){
+                    context.fillStyle = `rgba(0, 0, 0, ${ Math.min(this.clearBackground/500, 0.35) })`;
+                    context.fillRect(0, 0, width, height);
+                }else{
+                    context.clearRect(0, 0, width, height);
+                    context.fillStyle = `rgba(0, 0, 0, ${ Math.max((1500 - this.clearBackground)/1000, 0) })`;
+                    context.fillRect(0, 0, width, height);
+                }
+                if(this.clearBackground >= 1500){
+                    this.internalReset();
+                    this.completedHandler.fire(this);
+                }
             }
         }
 
@@ -131,8 +144,8 @@ namespace Background{
                 this.characters[i]!.velocityY += delta * 100;
             }
         }
-
         protected internalReset(){
+            this.clearBackground = 0;
             this.stopped = false;
             this.characters.length = 0;
         }

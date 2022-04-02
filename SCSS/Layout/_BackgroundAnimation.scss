@@ -1,12 +1,4 @@
-@keyframes background-animation-keyframes{
-    0%{
-        background-position: 0 0;
-    }
 
-    100%{
-        background-position: 0 6px;
-    }
-}
 
 canvas.background-animation{
     position: fixed;
@@ -18,17 +10,12 @@ canvas.background-animation{
     pointer-events: none;
     opacity: 0.5;
 
-    background: repeating-linear-gradient(0deg, #000 0px, #000 2px, #181818 3px, #181818 5px, #000 6px);
-    background-size: 6px 6px;
-
-    animation: background-animation-keyframes 250ms steps(6) infinite;
-
     transition: 
         background-color ease-in-out 500ms,
         opacity ease-in-out 500ms;
     
     &.maze-animation{
-        opacity: 0.65;
+        opacity: 0.55;
     }
 
     &.matrix-animation{
@@ -36,6 +23,6 @@ canvas.background-animation{
     }
 
     &.particle-emitter-animation{
-        opacity: 0.5;
+        opacity: 0.55;
     }
 }
