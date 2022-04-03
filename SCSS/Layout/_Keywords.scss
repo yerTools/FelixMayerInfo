@@ -5,15 +5,33 @@ span.keyword{
     margin-left: 2px;
     margin-right: 2px;
 
+    &.underline{
+        text-decoration: 2px underline #1ca2f0;
+    }
+
     &.variable{
         color: #e8eb55;
+
+        &.underline{
+            text-decoration: 2px underline #e8eb55;
+        }
     }
 
     &.important{
         color: #ec5b5b;
+        
+        &.underline{
+            text-decoration: 2px underline #ec5b5b;
+        }
     }
 
     &.green{
         color: #2ef72e;
+        
+        &.underline{
+            text-decoration: 2px underline #2ef72e;
+        }
     }
+
+
 }
