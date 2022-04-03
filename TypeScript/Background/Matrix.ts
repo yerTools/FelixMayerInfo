@@ -12,8 +12,8 @@ namespace Background{
         private static totalChars = Matrix.kanjiEnd - Matrix.kanjiStart + Matrix.hiraganaAndKatakanaSize; 
 
         private static drawInterval = 1000 / 18;
-        private static clearColor = "rgba(0,10,0,0.1)";
-        static textColor = "#30ff30";
+        private static clearColor = "rgba(0,15,0,0.15)";
+        static textColor = "#55ff55";
         static font = "20px monospace";
         static columnWidth = 32;
 

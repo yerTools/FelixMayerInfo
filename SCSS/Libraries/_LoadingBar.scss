@@ -1,0 +1,57 @@
+@keyframes loading-bar-keyframes {
+    0%{
+        background-position: 0 0;
+    }
+
+    100%{
+        background-position: 45px 45px;
+    }
+}
+
+div.loading-bar{
+    position: relative;
+    height: 16px;
+    box-sizing: border-box;
+    border-radius: 5px;
+
+    border: 2px solid #000;
+    background-color: rgba(255, 255, 255, 0.25);
+
+
+    & > div{
+        position: absolute;
+        left: 0;
+        top: 0;
+
+        box-sizing: border-box;
+        height: 100%;
+        border-radius: 5px;
+
+        background-image: repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.2) 0px, rgba(0, 0, 0, 0.2) 16px, rgba(255, 255, 255, 0.2) 16px, rgba(255, 255, 255, 0.2) 32px, rgba(0, 0, 0, 0.2) 32px);
+        background-size: 45px 45px;
+        background-color: #999;
+        animation: loading-bar-keyframes 5s linear infinite;
+
+        transition: width ease-in-out 500ms, color ease-in-out 1000ms;
+    }
+
+    &.light-green > div{
+        background-color: #23eb23;
+    }
+
+    &.green > div{
+        background-color: #47c017;
+    }
+
+    &.yellow > div{
+        background-color: #afa71c;
+    }
+
+    &.light-orange > div{
+        background-color: #e0b94b;
+    }
+
+    &.orange > div{
+        background-color: #da9b4a;
+    }
+}
