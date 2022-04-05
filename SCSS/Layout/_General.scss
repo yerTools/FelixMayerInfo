@@ -12,7 +12,7 @@ body{
     font-family: 'Source Sans 3 VF', 'Source Sans 3', sans-serif;
     font-size: 18px;
     background-color: #000000;
-    background: repeating-linear-gradient(-45deg, #111 0px, #111 2px, #000 3px, #000 5px, #111 6px);
+    background-image: repeating-linear-gradient(-45deg, #111 0px, #111 2px, #000 3px, #000 5px, #111 6px);
     background-size: 6px 6px;
 
     animation: background-animation-keyframes 350ms steps(6) infinite;
@@ -76,17 +76,17 @@ a{
 
         div.half-page{
             min-width: 50%;
-            min-height: 50%;
+            min-height: 50vh;
         }
 
         div.eighty-percent-page{
             min-width: 80%;
-            min-height: 80%;
+            min-height: 80vh;
         }
 
         div.full-page{
             min-width: 100%;
-            min-height: 100%;
+            min-height: 100vh;
         }
     }
     
