@@ -1,0 +1,124 @@
+image: mcr.microsoft.com/dotnet/sdk:6.0
+
+variables:
+    DOTNET_DIRECTORY_RELATIVE: 'DotNet'
+
+stages:
+  - restore
+  - node_build
+  - build
+  - publish
+  - dockerize
+
+cache:
+  - key: nuget-cache
+    paths:
+      - 'nuget-cache'
+  - key: node-modules
+    paths:
+      - 'node_modules'
+
+
+before_script:
+  - 'BASE_DIRECTORY=`pwd`'
+  - 'DOTNET_DIRECTORY=$BASE_DIRECTORY/$DOTNET_DIRECTORY_RELATIVE'
+
+npm_install_job:
+  stage: restore
+  image: node:latest
+  script:
+    - 'cd $BASE_DIRECTORY'
+    - 'npm install'
+  cache:
+    - key: node-modules
+      paths:
+        - 'node_modules'
+
+restore_job:
+  stage: restore
+  script:
+    - 'cd $DOTNET_DIRECTORY'
+    - 'dotnet restore --packages $BASE_DIRECTORY/nuget-cache'#
+  cache:
+    - key: nuget-cache
+      paths:
+        - 'nuget-cache'
+      policy: push
+
+node_build_job:
+  stage: node_build
+  image: node:latest
+  script:
+    - 'cd $BASE_DIRECTORY'
+    - 'npm install'
+    - 'npm run build'
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - '$DOTNET_DIRECTORY_RELATIVE/wwwroot/Script.js'
+      - '$DOTNET_DIRECTORY_RELATIVE/wwwroot/Style.css'
+  cache:
+    - key: node-modules
+      paths:
+        - 'node_modules'
+      policy: pull
+
+build_job:
+  stage: build
+  script:
+    - 'cd $DOTNET_DIRECTORY'
+    - 'dotnet restore --packages $BASE_DIRECTORY/nuget-cache'
+    - 'dotnet build --no-restore --configuration Debug'
+    - 'dotnet build --no-restore --configuration Release'
+  dependencies:
+    - node_build_job
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - '$DOTNET_DIRECTORY_RELATIVE'
+  cache:
+    - key: nuget-cache
+      paths:
+        - 'nuget-cache'
+      policy: pull
+
+publish_job:
+  stage: publish
+  script: 
+      - 'cd $DOTNET_DIRECTORY'
+      - 'dotnet restore --packages $BASE_DIRECTORY/nuget-cache'
+      - 'dotnet publish --no-build --no-self-contained --configuration Release'
+  dependencies:
+    - build_job
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - '$DOTNET_DIRECTORY_RELATIVE/bin/Release/net6.0/publish'
+  cache:
+    key: nuget-cache
+    paths:
+      - 'nuget-cache'
+    policy: pull
+
+dockerize_job:
+  stage: dockerize
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - 'echo $GITLAB_COM_PASSWORD | docker login -u "$GITLAB_COM_USERNAME" --password-stdin $GITLAB_COM_REGISTRY'
+  script: 
+      - 'docker build -t "$GITLAB_COM_REGISTRY_IMAGE" .'
+      - 'docker push "$GITLAB_COM_REGISTRY_IMAGE"'
+  cache: []
+  dependencies:
+    - publish_job
+
+
+deploy_job:
+  stage: deploy
+  script: 
+      - 'echo "Deploy"'
+  cache: []
+  dependencies:
+    - dockerize_job
