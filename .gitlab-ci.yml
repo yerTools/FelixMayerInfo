@@ -113,12 +113,3 @@ dockerize_job:
   cache: []
   dependencies:
     - publish_job
-
-
-deploy_job:
-  stage: deploy
-  script: 
-      - 'echo "Deploy"'
-  cache: []
-  dependencies:
-    - dockerize_job
