@@ -12,8 +12,6 @@
 /// <reference path="Background/ParticleEmitter.ts" />
 
 
-Input.pointerChanged.on(console.log);
-
 function backgroundAnimation(){
     const backgrounds:Background.Animation[] = [
         new Background.Matrix(),
