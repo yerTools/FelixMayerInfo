@@ -73,6 +73,10 @@ function backgroundAnimation(){
 
 backgroundAnimation();
 
+if(typeof window === "undefined"){
+    console.log("window can't be undefined ;)")
+}
+
 /*const photographyGalleryContainer = document.getElementById("photography-gallery-container");
 if(photographyGalleryContainer){
     const imageGallary = new Libraries.ImageGallary("/DotNet/wwwroot/jpg/full-size/", "/DotNet/wwwroot/jpg/", ".jpg", 39);
