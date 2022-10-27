@@ -123,7 +123,7 @@ deploy_job:
   before_script:
     - 'echo $CI_REGISTRY_PASSWORD | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY'
   script: 
-      - '$ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock containrrr/watchtower --run-once --cleanup Test'
+      - 'docker run --rm -v /var/run/docker.sock:/var/run/docker.sock containrrr/watchtower --run-once --cleanup Test'
   cache: []
   dependencies:
     - dockerize_job
