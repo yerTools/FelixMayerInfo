@@ -1,14 +1,14 @@
 /.vs
 /.vscode
 /.tmp
-/
+
 /node_modules
 /package-lock.json
-/
+
 /DotNet/.vs
 /DotNet/bin
 /DotNet/obj
-/
+
 /DotNet/wwwroot/Script.js
 /DotNet/wwwroot/Script.tsbuildinfo
 /DotNet/wwwroot/Style.css

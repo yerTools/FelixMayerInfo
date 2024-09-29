@@ -1,16 +1,17 @@
-# syntax=docker/dockerfile:1.0
-
-FROM mcr.microsoft.com/dotnet/sdk:6.0-node AS build
+FROM node:22-alpine3.20 AS build-node
 
 WORKDIR /app
 
-COPY package*.json ./
-
-RUN npm install
-
 COPY . .
 
+RUN npm install
 RUN npm run build
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-dot-net
+
+WORKDIR /app
+
+COPY --from=build-node /app/. .
 
 WORKDIR /app/DotNet
 
@@ -22,7 +23,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0
 
 WORKDIR /app
 
-COPY --from=build /app/publish .
+COPY --from=build-dot-net /app/publish .
 
 EXPOSE 80
 
